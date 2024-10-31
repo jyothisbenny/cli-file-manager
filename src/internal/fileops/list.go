@@ -5,14 +5,26 @@ import (
 	"path/filepath"
 )
 
-func ListFile() ([]string, error) {
+func ListFile(dirOnly, fileOnly bool) ([]string, error) {
 	var files []string
-
 	err := filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
+
+		//// Skip any subdirectories
+		//if info.IsDir() && path != "." {
+		//	return filepath.SkipDir
+		//}
+
 		if err != nil {
 			return err
 		}
-		files = append(files, path)
+		if dirOnly && info.IsDir() {
+			files = append(files, path)
+		} else if fileOnly && !info.IsDir() {
+			files = append(files, path)
+		} else if !fileOnly && !dirOnly {
+			files = append(files, path)
+		}
+
 		//if !info.IsDir() {
 		//	files = append(files, path)
 		//}

@@ -16,14 +16,21 @@ func main() {
 
 	switch command {
 	case "list":
-		files, err := fileops.ListFile()
-		if err != nil {
-			fmt.Println(err)
-			return
+		//initialize flags
+		var dirOnly, fileOnly bool
+
+		//check flags
+		for _, arg := range os.Args[2:] {
+			switch arg {
+			case "--dir-only":
+				dirOnly = true
+			case "--file-only":
+				fileOnly = true
+			}
+
 		}
-		for _, file := range files {
-			fmt.Println(file)
-		}
+
+		listFiles(dirOnly, fileOnly)
 	case "help":
 		showHelp()
 	default:
@@ -31,6 +38,27 @@ func main() {
 		showHelp()
 	}
 
+}
+
+func listFiles(dirOnly, fileOnly bool) {
+	files, err := fileops.ListFile(dirOnly, fileOnly)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	for _, file := range files {
+
+		info, err := os.Stat(file)
+		if err != nil {
+			fmt.Println(err)
+			panic(err)
+		}
+		if info.IsDir() {
+			fmt.Printf("\033[34m%s\033[0m\n", file)
+		} else {
+			fmt.Printf("\033[32m%s\033[0m\n", file)
+		}
+	}
 }
 
 func showHelp() {
