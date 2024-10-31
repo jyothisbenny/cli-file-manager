@@ -47,7 +47,17 @@ func listFiles(dirOnly, fileOnly bool) {
 		return
 	}
 	for _, file := range files {
-		fmt.Println(file)
+
+		info, err := os.Stat(file)
+		if err != nil {
+			fmt.Println(err)
+			panic(err)
+		}
+		if info.IsDir() {
+			fmt.Printf("\033[34m%s\033[0m\n", file)
+		} else {
+			fmt.Printf("\033[32m%s\033[0m\n", file)
+		}
 	}
 }
 
