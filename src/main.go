@@ -54,9 +54,9 @@ func listFiles(dirOnly, fileOnly bool) {
 			panic(err)
 		}
 		if info.IsDir() {
-			fmt.Printf("\033[34m%s\033[0m\n", file)
+			fmt.Printf("\033[34m📁 %s\033[0m\n", file)
 		} else {
-			fmt.Printf("\033[32m%s\033[0m\n", file)
+			fmt.Printf("\033[32m📄 %s\033[0m\n", file)
 		}
 	}
 }
