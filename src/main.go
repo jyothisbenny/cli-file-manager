@@ -30,7 +30,6 @@ func main() {
 			}
 
 		}
-
 		listFiles(dirOnly, fileOnly)
 	case "help":
 		showHelp()
@@ -55,6 +54,7 @@ func listFiles(dirOnly, fileOnly bool) {
 			panic(err)
 		}
 
+		//icon and color for files
 		icon := ""
 		color := ""
 		if info.IsDir() {
@@ -85,5 +85,4 @@ func showHelp() {
 	fmt.Println("          Flags:")
 	fmt.Println("            --verbose   Show detailed output")
 	fmt.Println("  help    Show this help message")
-
 }

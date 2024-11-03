@@ -1,25 +1,21 @@
 package fileops
 
 import (
-	"os"
-	"path/filepath"
+	"io/ioutil"
 )
 
 func ListFile(dirOnly, fileOnly bool) ([]string, error) {
 	var files []string
-	err := filepath.Walk(".", func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if dirOnly && info.IsDir() {
-			files = append(files, path)
-		} else if fileOnly && !info.IsDir() {
-			files = append(files, path)
+	entries, err := ioutil.ReadDir(".")
+	for _, entry := range entries {
+		if dirOnly && entry.IsDir() {
+			files = append(files, entry.Name())
+		} else if fileOnly && !entry.IsDir() {
+			files = append(files, entry.Name())
 		} else if !fileOnly && !dirOnly {
-			files = append(files, path)
+			files = append(files, entry.Name())
 		}
-		return nil
-	})
+	}
 	if err != nil {
 		return nil, err
 	}
