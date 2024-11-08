@@ -27,9 +27,13 @@ func main() {
 			case "--file-only":
 				fileOnly = true
 			}
-
 		}
 		fileops.ListFiles(dirOnly, fileOnly)
+	case "copy":
+		src := os.Args[2]
+		dst := os.Args[3]
+		fileops.Copy(src, dst)
+
 	case "help":
 		showHelp()
 	default:
@@ -45,5 +49,7 @@ func showHelp() {
 	fmt.Println("  list    List files in the current directory")
 	fmt.Println("          Flags:")
 	fmt.Println("            --verbose   Show detailed output")
+	fmt.Println("  copy    Copy files from source to destination")
+	fmt.Println("          example: copy path-to-file/file_name path-to-destination/ ")
 	fmt.Println("  help    Show this help message")
 }
