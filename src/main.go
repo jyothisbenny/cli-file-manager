@@ -1,10 +1,9 @@
 package main
 
 import (
-	"cli-file-tool/src/internal/fileops" // import fileops with full path
+	"cli-file-tool/src/internal/fileops"
 	"fmt"
 	"os"
-	"path/filepath"
 )
 
 func main() {
@@ -30,7 +29,7 @@ func main() {
 			}
 
 		}
-		listFiles(dirOnly, fileOnly)
+		fileops.ListFiles(dirOnly, fileOnly)
 	case "help":
 		showHelp()
 	default:
@@ -38,44 +37,6 @@ func main() {
 		showHelp()
 	}
 
-}
-
-func listFiles(dirOnly, fileOnly bool) {
-	files, err := fileops.ListFile(dirOnly, fileOnly)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	for _, file := range files {
-
-		info, err := os.Stat(file)
-		if err != nil {
-			fmt.Println(err)
-			panic(err)
-		}
-
-		//icon and color for files
-		icon := ""
-		color := ""
-		if info.IsDir() {
-			icon = "📁"
-			color = "\033[34m"
-		} else {
-			ext := filepath.Ext(file)
-			switch ext {
-			case ".tar", ".zip", ".gz":
-				icon = "📦"
-			case ".pdf":
-				icon = "📑"
-			case ".jpg", ".jpeg", ".png", ".gif", ".svg":
-				icon = "🖼️"
-			default:
-				icon = "📄"
-			}
-			color = "\033[32m"
-		}
-		fmt.Printf("%s%s %s \033[0m \n", color, icon, file)
-	}
 }
 
 func showHelp() {
