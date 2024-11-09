@@ -44,7 +44,7 @@ func main() {
 }
 
 func showHelp() {
-	fmt.Println("Usage: cli-file-tool <command> [args...]")
+	fmt.Println("Usage: gocli <command> [args...]")
 	fmt.Println("Available commands:")
 	fmt.Println("  list    List files in the current directory")
 	fmt.Println("          Flags:")
